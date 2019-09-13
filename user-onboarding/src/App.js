@@ -7,8 +7,8 @@ function App() {
 
   const [userForm, setUserForm] = useState([
     {
-      name: "Aaron Verdine",
-      email: "a_verdine118@yahoo.com",
+      name: "",
+      email: "",
       password: "",
       TOS: false
     }
@@ -18,7 +18,8 @@ function App() {
   return (
     <div className="App">
     <h1> Team Onboarding Form</h1>
-      <OnboardForm />
+
+      <OnboardForm userForm={userForm} setUserForm={setUserForm} />
 
       {userForm.map((userForm, index) => (
         <div className="user-form" key={index}>
