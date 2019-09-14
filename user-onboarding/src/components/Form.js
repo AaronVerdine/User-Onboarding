@@ -1,52 +1,56 @@
 import React from "react";
-import { withFormik, Form, Field } from "formik"; 
+import { withFormik, Form, Field } from "formik";
+import * as yup from "yup";
 
-const OnboardForm = props => {
-  console.log(props);
-
+const OnboardForm = ({ errors }) => {
+  // console.log(props);
   return (
     <div>
       <Form>
-        <Field
-          type="text"
-          name="name"
-          placeholder="Name"
-        />
+        {errors.name && <p className="error">{errors.name}</p>}
+        <Field type="text" name="name" placeholder="Name" />
         <br></br>
-        <Field
-          type="text"
-          name="email"
-          placeholder="Email"
-        />
+
+        {errors.email && <p className="error">{errors.email}</p>}
+        <Field type="text" name="email" placeholder="Email" />
         <br></br>
-        <Field
-          type="password"
-          name="password"
-          placeholder="Enter Passwrod"
-        />
+
+        {errors.password && <p className="error">{errors.password}</p>}
+        
+        <Field type="password" name="password" placeholder="Enter Password" />
         <br></br>
-        <Field
-          type="radio"
-          name="Terms of Service"
-        />
-        Terms of Service
+
+        {errors.TOS && <p className="error">{errors.TOS}</p>}
+        <label>
+          <Field type="checkbox" name="TOS" />
+          <span>Terms of Service</span>
+        </label>
         <br></br>
-        <button type="submit">Submit Here!</button>
+        <button type="submit">Sign Up Here!</button>
       </Form>
     </div>
   );
 };
 
 export default withFormik({
-  mapPropsToValues: (values) => {
+  mapPropsToValues: values => {
     return {
       name: values.name || "",
-      email: values.email || "",
+      email: values.email || "", 
       password: values.password || "",
-      tos: values.tos || false
-    }
+      TOS: values.TOS || false
+    };
   },
-  handleSubmit: (values) => {
-    console.log(values)
+  validationSchema: yup.object().shape({
+    name: yup.string().required(),
+    email: yup
+      .string()
+      .required()
+      .email(),
+    password: yup.string().required(),
+    TOS: yup.boolean().oneOf([true])
+  }),
+  handleSubmit: values => {
+    console.log(values);
   }
-})(OnboardForm)
+})(OnboardForm);
