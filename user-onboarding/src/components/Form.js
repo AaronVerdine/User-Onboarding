@@ -1,76 +1,52 @@
-import React, { useState } from "react";
-import { withFormik } from "formik"; 
+import React from "react";
+import { withFormik, Form, Field } from "formik"; 
 
 const OnboardForm = props => {
   console.log(props);
 
-  const formFields = {
-    name: "",
-    email: "",
-    password: "",
-    TOS: false
-  };
-
-  const [newUser, setNewUser] = useState(formFields);
-
-  const handleChange = event => {
-    setNewUser({ ...newUser, [event.target.name]: event.target.value });
-  };
-
-  const handleSubmit = event => {
-    event.preventDefault();
-    props.setUserForm([...props.userForm, newUser]);
-
-    resetForm(event);
-  };
-
-  const resetForm = event => {
-    event.preventDefault();
-
-    setNewUser(formFields);
-  };
-
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <input
+      <Form>
+        <Field
           type="text"
           name="name"
           placeholder="Name"
-          onChange={handleChange}
-          value={newUser.name}
         />
         <br></br>
-        <input
+        <Field
           type="text"
           name="email"
           placeholder="Email"
-          onChange={handleChange}
-          value={newUser.email}
         />
         <br></br>
-        <input
+        <Field
           type="password"
           name="password"
           placeholder="Enter Passwrod"
-          onChange={handleChange}
-          value={newUser.password}
         />
         <br></br>
-        <input
+        <Field
           type="radio"
           name="Terms of Service"
-          onChange={handleChange}
-          value={newUser.TOS}
-        />{" "}
+        />
         Terms of Service
         <br></br>
         <button type="submit">Submit Here!</button>
-      </form>
+      </Form>
     </div>
   );
 };
 
 export default withFormik({
-  mapPropsToValues: () => {}
+  mapPropsToValues: (values) => {
+    return {
+      name: values.name || "",
+      email: values.email || "",
+      password: values.password || "",
+      tos: values.tos || false
+    }
+  },
+  handleSubmit: (values) => {
+    console.log(values)
+  }
 })(OnboardForm)
