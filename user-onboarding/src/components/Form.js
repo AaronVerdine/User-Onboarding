@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { withFormik } from "formik"; 
 
 const OnboardForm = props => {
   console.log(props);
@@ -13,12 +14,12 @@ const OnboardForm = props => {
   const [newUser, setNewUser] = useState(formFields);
 
   const handleChange = event => {
-        setNewUser({...newUser, [event.target.name]: event.target.value});
+    setNewUser({ ...newUser, [event.target.name]: event.target.value });
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-    props.setUserForm([...props.userForm, newUser])
+    props.setUserForm([...props.userForm, newUser]);
 
     resetForm(event);
   };
@@ -61,15 +62,15 @@ const OnboardForm = props => {
           name="Terms of Service"
           onChange={handleChange}
           value={newUser.TOS}
-        /> Terms of Service
+        />{" "}
+        Terms of Service
         <br></br>
-
-        <button type="submit">
-          Submit Here!
-        </button>
+        <button type="submit">Submit Here!</button>
       </form>
     </div>
   );
 };
 
-export default OnboardForm;
+export default withFormik({
+  mapPropsToValues: () => {}
+})(OnboardForm)
