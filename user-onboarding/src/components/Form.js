@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { withFormik, Form, Field } from "formik";
 import * as yup from "yup";
 import axios from "axios";
 
-const OnboardForm = ({ errors, touched }) => {
-  // console.log(props);
+const OnboardForm = ({ errors, touched, status }) => {
+  // console.log(status);
+  const [users, setUsers] = useState([])
+
+  useEffect(() => {
+    if (status) {
+      setUsers([...users, status])
+
+    }
+  }, [status])
+
   return (
     <div>
       <Form>
@@ -32,6 +41,14 @@ const OnboardForm = ({ errors, touched }) => {
         </label>
         <br></br>
         <button type="submit">Sign Up Here!</button>
+
+      
+        {users.map(user => (
+          <>
+          <div>name: {user.name}</div>
+          <div>Email: {user.email}</div>
+          </>
+        ))}
       </Form>
     </div>
   );
@@ -57,14 +74,13 @@ export default withFormik({
       .boolean()
       .oneOf([true], "Please accept the Terms of Service to continue   ")
   }),
-  handleSubmit: values => {
-    axios
-      .post("https://reqres.in/api/users", values)
-      .then(res => {
-        console.log(res);
+  handleSubmit: (values, { setStatus }) => {
+    axios.post("https://reqres.in/api/users", values)
+      .then((res) => {
+        setStatus(res.data)
       })
-      .catch(err => {
-        console.log(err);
+      .catch((err )=> {
+        console.log('Error:', err);
       });
   }
 })(OnboardForm);
