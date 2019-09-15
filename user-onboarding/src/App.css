@@ -57,6 +57,10 @@ body {
   text-align: center;
 }
 
+h1 {
+  text-align: center;
+}
+
 form {
   width: 460px;
   margin: 100px auto 50px;
@@ -213,7 +217,7 @@ input[type="checkbox"] ~ span:after {
 
 button {
   max-width: 150px;
-  margin: 32px 0;
+  margin: 32px 110px;
   padding: 12px 20px;
   border-style: none;
   border-radius: 5px;
