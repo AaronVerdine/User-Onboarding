@@ -5,14 +5,13 @@ import axios from "axios";
 
 const OnboardForm = ({ errors, touched, status }) => {
   // console.log(status);
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     if (status) {
-      setUsers([...users, status])
-
+      setUsers([...users, status]);
     }
-  }, [status])
+  }, [status]);
 
   return (
     <div>
@@ -34,6 +33,17 @@ const OnboardForm = ({ errors, touched, status }) => {
         <Field type="password" name="password" placeholder="Enter Password" />
         <br></br>
 
+        {touched.role && errors.role && <p className="error">{errors.role}</p>}
+        <Field type="text" component="select" name="role">
+          <option value="" disabled>
+            Select Role:
+          </option>
+          <option value="Front End Engineer">Front End Engineer</option>
+          <option value="Back End Engineer">Back End Engineer</option>
+          <option value="UI Designer">UI Designer</option>
+          <option value="UX Designer">UX Designer</option>
+        </Field>
+
         {touched.TOS && errors.TOS && <p className="error">{errors.TOS}</p>}
         <label>
           <Field type="checkbox" name="TOS" />
@@ -42,11 +52,10 @@ const OnboardForm = ({ errors, touched, status }) => {
         <br></br>
         <button type="submit">Sign Up Here!</button>
 
-      
         {users.map(user => (
           <>
-          <div>name: {user.name}</div>
-          <div>Email: {user.email}</div>
+            <div>name: {user.name}</div>
+            <div>Email: {user.email}</div>
           </>
         ))}
       </Form>
@@ -75,12 +84,13 @@ export default withFormik({
       .oneOf([true], "Please accept the Terms of Service to continue   ")
   }),
   handleSubmit: (values, { setStatus }) => {
-    axios.post("https://reqres.in/api/users", values)
-      .then((res) => {
-        setStatus(res.data)
+    axios
+      .post("https://reqres.in/api/users", values)
+      .then(res => {
+        setStatus(res.data);
       })
-      .catch((err )=> {
-        console.log('Error:', err);
+      .catch(err => {
+        console.log("Error:", err);
       });
   }
 })(OnboardForm);
